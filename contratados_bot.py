@@ -13,38 +13,36 @@ from remover_arquivos import remover_todos
 
 
 def app_geracao_relatorio_contratados():
-    try:
-        with open('R:\Compartilhado\Fiscal\lista_clientes_iss\senha.txt', 'r') as arquivo:
-            credenciais = arquivo.readlines()
-        
-        CPF = credenciais[0].replace('\n', '')
-        SENHAS = credenciais[1].replace('\n', '').split()
-        SENHAS = [int(senha) for senha in SENHAS]
 
-        dt_inicial = '01/11/2022'
-        dt_final = '30/11/2022'
-        data_lista = dt_inicial.split('/')
-        competencia = data_lista[1] + data_lista[2]
+    with open('R:\Compartilhado\Fiscal\lista_clientes_iss\senha.txt', 'r') as arquivo:
+        credenciais = arquivo.readlines()
+    
+    CPF = credenciais[0].replace('\n', '')
+    SENHAS = credenciais[1].replace('\n', '').split()
+    SENHAS = [int(senha) for senha in SENHAS]
 
-        planilha = de.planilha()
-        dic_empresas = de.criar_dicionario_empresas(planilha)
+    dt_inicial = '01/12/2022'
+    dt_final = '31/12/2022'
+    data_lista = dt_inicial.split('/')
+    competencia = data_lista[1] + data_lista[2]
 
-        driver = acesso.criar_conexao(CPF, SENHAS)
-        ISS.exportar_empresas_contratados(
-            driver, dic_empresas, dt_inicial, dt_final)
+    planilha = de.planilha()
+    dic_empresas = de.criar_dicionario_empresas(planilha)
 
-        rename.renomear_arquivos_contratados(dic_empresas)
+    driver = acesso.criar_conexao(CPF, SENHAS)
+    ISS.exportar_empresas_contratados(
+        driver, dic_empresas, dt_inicial, dt_final)
 
-        copiar_rede.contratados(dic_empresas, competencia)
+    rename.renomear_arquivos_contratados(dic_empresas)
 
-        return True
-    except Exception as e:
-        print(e)
-        return False
+    copiar_rede.contratados(dic_empresas, competencia)
+
+    
+
+     
 
 
 if __name__ == '__main__':
-    while(True):
-        func = app_geracao_relatorio_contratados()
-        if func == True:
-            break
+    
+    func = app_geracao_relatorio_contratados()
+      

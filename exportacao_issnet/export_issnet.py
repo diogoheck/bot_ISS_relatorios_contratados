@@ -9,11 +9,14 @@ from exception.lancar_excecao import lancamento_excecao, lancamento_excecao_tela
 from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import ElementNotInteractableException
 from selenium.webdriver.common.by import By
+import pyautogui
 
 PASTA_RELATORIO_CONTRATADOS = r'C:\ISS\relatorio_contratados'
 PASTA_LIVRO_PRESTADOS = r'C:\ISS\livro_prestados'
 # PASTA_RELATORIO_CONTRATADOS = r'C:\ISS\relatorio_contratados'
 # PASTA_LIVRO_PRESTADOS = r'C:\ISS\livro_prestados'
+class Cliente:
+    primeiro = True
 
 
 def inserir_IE(driver, IE):
@@ -198,8 +201,21 @@ def gerar_relatorio_contratados(driver, IE, empresa, caminho, padrao,
     ano = dt_inicial[6:10]
     nome_salvar = f'{PASTA_RELATORIO_CONTRATADOS}\\{empresa[4]} {mes}{ano}'
 
-    lancamento_excecao(clicar_botao_imprimir, driver)
+    if Cliente.primeiro:
+        # nao salvar senha
+        pyautogui.click(1172,339)
+        time.sleep(2)
+        lancamento_excecao(clicar_botao_imprimir, driver)
+        time.sleep(5)
+        pyautogui.click(1137,46)
+        time.sleep(1)
+        pyautogui.click(924,149)
+        time.sleep(1)
+        pyautogui.click(1165,233)
+        time.sleep(2)
+        Cliente.primeiro = False
 
+    lancamento_excecao(clicar_botao_imprimir, driver)
     lancamento_excecao_telas(carregar_tela_impressao)
 
     pyautogui.hotkey('ctrl', 's')
@@ -251,6 +267,7 @@ def empresa_do_simples(empresa):
 
 def exportar_empresas_contratados(driver, dic_empresas, dt_inicial, dt_final):
     caminho = False
+    
     for empresa in dic_empresas.values():
         Identificador = empresa[4]
         simples = empresa_do_simples(empresa)
