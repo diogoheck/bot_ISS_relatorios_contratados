@@ -21,15 +21,15 @@ def app_geracao_relatorio_contratados():
     SENHAS = credenciais[1].replace('\n', '').split()
     SENHAS = [int(senha) for senha in SENHAS]
 
-    dt_inicial = '01/01/2023'
-    dt_final = '31/01/2023'
+    dt_inicial = '01/02/2023'
+    dt_final = '28/02/2023'
     data_lista = dt_inicial.split('/')
     competencia = data_lista[1] + data_lista[2]
 
     planilha = de.planilha()
     dic_empresas = de.criar_dicionario_empresas(planilha)
 
-    # driver = acesso.criar_conexao(CPF, SENHAS)pytho
+    # driver = acesso.criar_conexao(CPF, SENHAS)
     # ISS.exportar_empresas_contratados(
     #     driver, dic_empresas, dt_inicial, dt_final)
 

@@ -37,7 +37,7 @@ def login_site(driver):
 
 def inserir_cfp(driver, CPF):
     driver.find_element(By.XPATH,
-        '//*[@id="txtLogin"]').send_keys(CPF)
+                        '//*[@id="txtLogin"]').send_keys(CPF)
 
 
 def clicar_botao_senha(driver, botao):
@@ -50,17 +50,16 @@ def clicar_botao_acesso(driver):
 
 def clicar_msg_expiracao_senha(driver):
     driver.find_element(By.XPATH,
-        '/html/body/div[1]/div/div/div[3]/div/button').click()
+                        '/html/body/div[1]/div/div/div[3]/div/button').click()
 
 
 def inserir_senha(driver, CPF, senhas):
-
 
     lancamento_excecao(login_site, driver)
 
     driver.maximize_window()
 
-    time.sleep(10)
+    time.sleep(20)
 
     dicionario = pega_botoes(driver)
 
@@ -87,12 +86,13 @@ def criar_conexao(CPF, senhas):
         'profile.default_content_setting_values.notifications': 2,
         # Permitir multiplos downloads
         'profile.default_content_setting_values.automatic_downloads': 1,
-        
-}
+
+    }
 
     options.add_experimental_option("prefs", prefs)
 
-    arguments = ['--lang=pt-BR', '--window-size=800,600', '--disable-web-security']
+    arguments = ['--lang=pt-BR', '--window-size=800,600',
+                 '--disable-web-security']
     for argument in arguments:
         options.add_argument(argument)
 
@@ -100,9 +100,6 @@ def criar_conexao(CPF, senhas):
         service=ChromeService(ChromeDriverManager().install()),
         chrome_options=options)
     # driver = uc.Chrome()
-    
-    
-
 
     inserir_senha(driver, CPF, senhas)
     return driver
